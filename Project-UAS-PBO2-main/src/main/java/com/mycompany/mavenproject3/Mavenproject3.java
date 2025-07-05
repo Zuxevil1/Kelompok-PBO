@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Mavenproject3 extends JFrame {
-    private JButton addProductButton, viewCustomerButton, sellProductButton, reportButton, regisButton;
+    private JButton addProductButton, viewCustomerButton, sellProductButton, reportButton, regisButton, logoutButton;
     private final List<Product> productList = new ArrayList<>();
     private final List<Customer> customerList = new ArrayList<>();
     private final List<History> historyList = new ArrayList<>();
@@ -26,19 +26,25 @@ public class Mavenproject3 extends JFrame {
         gbc.insets = new Insets(0, 4, 8, 4);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        gbc.gridx = 0;
-        gbc.gridy = 0;
+        // Label "Home"
+        gbc.gridy = 1;
         JLabel titleLabel = new JLabel("Home");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 30));
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
         leftPanel.add(titleLabel, gbc);
 
         // Inisialisasi tombol navigasi
-        addProductButton = createNavButton("Kelola Produk", leftPanel, gbc, 1);
-        viewCustomerButton = createNavButton("Kelola Customer", leftPanel, gbc, 2);
-        sellProductButton = createNavButton("Jual Produk", leftPanel, gbc, 3);
-        reportButton = createNavButton("Laporan Penjualan", leftPanel, gbc, 4);
-        regisButton = createNavButton("Registrasi Akun", leftPanel, gbc, 5);
+        addProductButton = createNavButton("Kelola Produk", leftPanel, gbc, 2);
+        viewCustomerButton = createNavButton("Kelola Customer", leftPanel, gbc, 3);
+        sellProductButton = createNavButton("Jual Produk", leftPanel, gbc, 4);
+        reportButton = createNavButton("Laporan Penjualan", leftPanel, gbc, 5);
+        regisButton = createNavButton("Registrasi Akun", leftPanel, gbc, 6);
+        
+        logoutButton = new JButton("Logout");
+        logoutButton.setForeground(Color.RED);
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        leftPanel.add(logoutButton, gbc);
 
         JPanel wrapperPanel = new JPanel(new BorderLayout());
         wrapperPanel.add(leftPanel, BorderLayout.NORTH);
@@ -58,6 +64,15 @@ public class Mavenproject3 extends JFrame {
         sellProductButton.addActionListener(e -> new SellForm(this).setVisible(true));
         reportButton.addActionListener(e -> new HistoryForm(this).setVisible(true));
         regisButton.addActionListener(e -> new RegisForm(this).setVisible(true));
+
+        // Listener untuk Logout
+        logoutButton.addActionListener(e -> {
+            int confirm = JOptionPane.showConfirmDialog(this, "Yakin ingin logout?", "Konfirmasi Logout", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                dispose();         // Tutup jendela utama
+                new LoginForm();   // Kembali ke form login
+            }
+        });
 
         setVisible(true);
     }
@@ -150,6 +165,6 @@ public class Mavenproject3 extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(Mavenproject3::new);
+        SwingUtilities.invokeLater(LoginForm::new);
     }
 }
